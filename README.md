@@ -42,6 +42,7 @@ The compression pipeline sequentially applies three main techniques to achieve m
 **1. Install Prerequisites:** Ensure you have Python installed along with the required libraries. If using a GPU (recommended), ensure PyTorch is configured for CUDA.
 ```bash
 pip install torch torchvision numpy scikit-learn matplotlib
+```
 2. Run the Pipeline (Default): By default, the script runs the CNN model on raw CIFAR-10 images.Bashpython main.py
 3. Run the Pipeline (MLP with Feature Extraction): If you want to train the MLP on frozen ResNet-18 features, specify the model flag.Bashpython main.py --model mlp
 (Note: If you have already extracted the features once, add --skip_extraction to save time by loading the cached features).Command Line Arguments:--model: Choose architecture (cnn or mlp).--dataset: Choose dataset (cifar10, mnist, etc.).--sparsity: Target pruning sparsity (e.g., 0.9 for 90%).--epochs / --finetune_epochs: Control training duration.🔄 How to Load the Compressed ModelBecause standard PyTorch torch.load() cannot handle our custom sparse, quantized, and Huffman-encoded formats, we use our custom .npz deserialization utility.To load the model with your compressed weights for inference:Pythonfrom utils.serialization import load_compressed_npz
